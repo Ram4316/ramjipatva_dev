@@ -1,0 +1,340 @@
+"use client";
+
+import { motion } from "framer-motion";
+import { useInView } from "framer-motion";
+import { useRef, useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+
+const ProjectsSection = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
+
+  const projects = [
+    {
+      id: 1,
+      title: "E-Commerce Platform",
+      category: "Full Stack",
+      description: "A modern e-commerce platform built with Next.js, featuring real-time inventory management, secure payments, and advanced analytics.",
+      longDescription: "This comprehensive e-commerce solution includes user authentication, product catalog management, shopping cart functionality, secure payment processing with Stripe, order tracking, and an admin dashboard with real-time analytics. The platform is built with performance and scalability in mind, utilizing server-side rendering and optimized database queries.",
+      image: "https://placehold.co/600x400?text=Modern+E-Commerce+Platform+Dashboard+Interface",
+      technologies: ["Next.js", "TypeScript", "PostgreSQL", "Stripe", "Tailwind CSS", "Prisma"],
+      features: [
+        "Real-time inventory management",
+        "Secure payment processing",
+        "Advanced analytics dashboard",
+        "Mobile-responsive design",
+        "SEO optimized",
+        "Admin panel with role-based access"
+      ],
+      liveUrl: "#",
+      githubUrl: "#",
+      status: "Completed"
+    },
+    {
+      id: 2,
+      title: "Task Management App",
+      category: "Frontend",
+      description: "A collaborative task management application with real-time updates, drag-and-drop functionality, and team collaboration features.",
+      longDescription: "This project management tool enables teams to organize tasks efficiently with features like drag-and-drop kanban boards, real-time collaboration, file attachments, time tracking, and detailed project analytics. Built with React and Socket.io for seamless real-time updates.",
+      image: "https://placehold.co/600x400?text=Task+Management+Kanban+Board+Interface",
+      technologies: ["React", "Socket.io", "Node.js", "MongoDB", "Material-UI"],
+      features: [
+        "Drag-and-drop kanban boards",
+        "Real-time collaboration",
+        "File attachments",
+        "Time tracking",
+        "Project analytics",
+        "Team management"
+      ],
+      liveUrl: "#",
+      githubUrl: "#",
+      status: "Completed"
+    },
+    {
+      id: 3,
+      title: "AI-Powered Analytics Dashboard",
+      category: "Data Visualization",
+      description: "An intelligent analytics dashboard that uses machine learning to provide insights and predictions for business metrics.",
+      longDescription: "This advanced analytics platform integrates multiple data sources and uses AI algorithms to generate actionable insights. Features include predictive analytics, automated report generation, custom dashboard creation, and real-time data visualization with interactive charts and graphs.",
+      image: "https://placehold.co/600x400?text=AI+Analytics+Dashboard+with+Charts+and+Graphs",
+      technologies: ["React", "D3.js", "Python", "TensorFlow", "FastAPI", "PostgreSQL"],
+      features: [
+        "Predictive analytics",
+        "Automated reporting",
+        "Custom dashboards",
+        "Real-time data visualization",
+        "Machine learning insights",
+        "Multi-source data integration"
+      ],
+      liveUrl: "#",
+      githubUrl: "#",
+      status: "In Progress"
+    },
+    {
+      id: 4,
+      title: "Social Media Scheduler",
+      category: "SaaS",
+      description: "A comprehensive social media management tool for scheduling posts, analyzing engagement, and managing multiple accounts.",
+      longDescription: "This SaaS platform allows users to manage multiple social media accounts from a single dashboard. Features include post scheduling, content calendar, engagement analytics, hashtag suggestions, and team collaboration tools. Built with a microservices architecture for scalability.",
+      image: "https://placehold.co/600x400?text=Social+Media+Scheduler+Calendar+Interface",
+      technologies: ["Vue.js", "Laravel", "Redis", "MySQL", "Docker", "AWS"],
+      features: [
+        "Multi-platform posting",
+        "Content calendar",
+        "Engagement analytics",
+        "Hashtag suggestions",
+        "Team collaboration",
+        "Automated scheduling"
+      ],
+      liveUrl: "#",
+      githubUrl: "#",
+      status: "Completed"
+    },
+    {
+      id: 5,
+      title: "Real Estate Platform",
+      category: "Full Stack",
+      description: "A modern real estate platform with property listings, virtual tours, mortgage calculator, and agent management system.",
+      longDescription: "This comprehensive real estate solution includes property search with advanced filters, virtual tour integration, mortgage calculator, agent profiles, lead management system, and property comparison tools. Features responsive design and SEO optimization for maximum visibility.",
+      image: "https://placehold.co/600x400?text=Real+Estate+Property+Listing+Platform",
+      technologies: ["Next.js", "Prisma", "PostgreSQL", "Mapbox", "Cloudinary", "Stripe"],
+      features: [
+        "Advanced property search",
+        "Virtual tour integration",
+        "Mortgage calculator",
+        "Agent management system",
+        "Lead tracking",
+        "Property comparison"
+      ],
+      liveUrl: "#",
+      githubUrl: "#",
+      status: "Completed"
+    },
+    {
+      id: 6,
+      title: "Fitness Tracking App",
+      category: "Mobile",
+      description: "A comprehensive fitness tracking application with workout plans, nutrition tracking, and progress analytics.",
+      longDescription: "This mobile-first fitness application helps users track their workouts, monitor nutrition, set fitness goals, and analyze progress over time. Includes social features for sharing achievements and competing with friends, plus integration with wearable devices.",
+      image: "https://placehold.co/600x400?text=Fitness+Tracking+Mobile+App+Interface",
+      technologies: ["React Native", "Firebase", "Node.js", "MongoDB", "Chart.js"],
+      features: [
+        "Workout tracking",
+        "Nutrition monitoring",
+        "Progress analytics",
+        "Social features",
+        "Wearable integration",
+        "Custom workout plans"
+      ],
+      liveUrl: "#",
+      githubUrl: "#",
+      status: "In Progress"
+    }
+  ];
+
+  const categories = ["All", "Full Stack", "Frontend", "Data Visualization", "SaaS", "Mobile"];
+  const [activeCategory, setActiveCategory] = useState("All");
+
+  const filteredProjects = activeCategory === "All" 
+    ? projects 
+    : projects.filter(project => project.category === activeCategory);
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-muted/20 to-background py-20 px-6">
+      <div className="max-w-7xl mx-auto">
+        <motion.div
+          ref={ref}
+          initial={{ opacity: 0, y: 50 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-foreground to-primary bg-clip-text text-transparent">
+            Featured Projects
+          </h2>
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            A showcase of innovative solutions and creative implementations across various domains and technologies.
+          </p>
+        </motion.div>
+
+        {/* Category Filter */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="flex flex-wrap justify-center gap-3 mb-12"
+        >
+          {categories.map((category) => (
+            <button
+              key={category}
+              onClick={() => setActiveCategory(category)}
+              className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+                activeCategory === category
+                  ? "bg-primary text-primary-foreground shadow-lg scale-105"
+                  : "bg-card text-muted-foreground hover:bg-muted border border-border"
+              }`}
+            >
+              {category}
+            </button>
+          ))}
+        </motion.div>
+
+        {/* Projects Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredProjects.map((project, index) => (
+            <motion.div
+              key={project.id}
+              initial={{ opacity: 0, y: 50 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+              transition={{ duration: 0.6, delay: 0.4 + index * 0.1 }}
+              className="group cursor-pointer"
+              onClick={() => setSelectedProject(project)}
+            >
+              <div className="bg-card rounded-2xl overflow-hidden border shadow-lg hover:shadow-2xl transition-all duration-300 group-hover:scale-105">
+                {/* Project Image */}
+                <div className="relative overflow-hidden">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
+                      const parent = target.parentElement;
+                      if (parent) {
+                        parent.innerHTML = `<div class="w-full h-48 bg-muted flex items-center justify-center text-muted-foreground">Project Preview</div>`;
+                      }
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <Badge 
+                    className={`absolute top-4 right-4 ${
+                      project.status === 'Completed' ? 'bg-green-500' : 'bg-yellow-500'
+                    }`}
+                  >
+                    {project.status}
+                  </Badge>
+                </div>
+
+                {/* Project Content */}
+                <div className="p-6">
+                  <div className="flex items-center justify-between mb-3">
+                    <Badge variant="secondary" className="text-xs">
+                      {project.category}
+                    </Badge>
+                  </div>
+                  
+                  <h3 className="text-xl font-semibold mb-3 group-hover:text-primary transition-colors">
+                    {project.title}
+                  </h3>
+                  
+                  <p className="text-muted-foreground text-sm leading-relaxed mb-4">
+                    {project.description}
+                  </p>
+
+                  {/* Technologies */}
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.technologies.slice(0, 3).map((tech, techIndex) => (
+                      <span
+                        key={techIndex}
+                        className="px-2 py-1 bg-muted text-xs rounded-md text-muted-foreground"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                    {project.technologies.length > 3 && (
+                      <span className="px-2 py-1 bg-muted text-xs rounded-md text-muted-foreground">
+                        +{project.technologies.length - 3} more
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="text-sm text-primary font-medium group-hover:underline">
+                    View Details →
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Project Modal */}
+        <Dialog open={!!selectedProject} onOpenChange={() => setSelectedProject(null)}>
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+            {selectedProject && (
+              <>
+                <DialogHeader>
+                  <DialogTitle className="text-2xl font-bold">
+                    {selectedProject.title}
+                  </DialogTitle>
+                </DialogHeader>
+                
+                <div className="space-y-6">
+                  {/* Project Image */}
+                  <img
+                    src={selectedProject.image}
+                    alt={selectedProject.title}
+                    className="w-full h-64 object-cover rounded-lg"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
+                    }}
+                  />
+
+                  {/* Project Details */}
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <h3 className="text-lg font-semibold mb-3">Description</h3>
+                      <p className="text-muted-foreground leading-relaxed mb-4">
+                        {selectedProject.longDescription}
+                      </p>
+                      
+                      <div className="flex gap-3">
+                        <Button asChild>
+                          <a href={selectedProject.liveUrl} target="_blank" rel="noopener noreferrer">
+                            Live Demo
+                          </a>
+                        </Button>
+                        <Button variant="outline" asChild>
+                          <a href={selectedProject.githubUrl} target="_blank" rel="noopener noreferrer">
+                            View Code
+                          </a>
+                        </Button>
+                      </div>
+                    </div>
+
+                    <div>
+                      <h3 className="text-lg font-semibold mb-3">Key Features</h3>
+                      <ul className="space-y-2 mb-6">
+                        {selectedProject.features.map((feature: string, index: number) => (
+                          <li key={index} className="flex items-center text-sm">
+                            <div className="w-2 h-2 bg-primary rounded-full mr-3 flex-shrink-0" />
+                            {feature}
+                          </li>
+                        ))}
+                      </ul>
+
+                      <h3 className="text-lg font-semibold mb-3">Technologies Used</h3>
+                      <div className="flex flex-wrap gap-2">
+                        {selectedProject.technologies.map((tech: string, index: number) => (
+                          <Badge key={index} variant="secondary">
+                            {tech}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
+          </DialogContent>
+        </Dialog>
+      </div>
+    </div>
+  );
+};
+
+export default ProjectsSection;
