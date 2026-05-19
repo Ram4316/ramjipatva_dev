@@ -14,40 +14,40 @@ const SkillsSection = () => {
     frontend: {
       title: "Frontend Development",
       skills: [
-        { name: "React/Next.js", level: 95, color: "#61DAFB" },
-        { name: "TypeScript", level: 90, color: "#3178C6" },
-        { name: "Tailwind CSS", level: 88, color: "#06B6D4" },
-        { name: "JavaScript", level: 92, color: "#F7DF1E" },
-        { name: "HTML/CSS", level: 95, color: "#E34F26" }
+        { name: "React/Next.js", level: 88, color: "#61DAFB" },
+        { name: "TypeScript", level: 80, color: "#3178C6" },
+        { name: "Tailwind CSS", level: 85, color: "#06B6D4" },
+        { name: "JavaScript", level: 88, color: "#F7DF1E" },
+        { name: "HTML/CSS", level: 92, color: "#E34F26" }
       ]
     },
     backend: {
-      title: "Backend Development",
+      title: "Backend & Mobile",
       skills: [
-        { name: "Node.js", level: 85, color: "#339933" },
-        { name: "Python", level: 80, color: "#3776AB" },
-        { name: "PostgreSQL", level: 82, color: "#336791" },
-        { name: "MongoDB", level: 78, color: "#47A248" },
-        { name: "REST APIs", level: 90, color: "#FF6B35" }
+        { name: "Flutter", level: 82, color: "#54C5F8" },
+        { name: "Firebase", level: 85, color: "#FFCA28" },
+        { name: "Node.js", level: 75, color: "#339933" },
+        { name: "PostgreSQL", level: 72, color: "#336791" },
+        { name: "REST APIs", level: 80, color: "#FF6B35" }
       ]
     },
     tools: {
       title: "Tools & Technologies",
       skills: [
-        { name: "Git/GitHub", level: 92, color: "#F05032" },
-        { name: "Docker", level: 75, color: "#2496ED" },
-        { name: "AWS", level: 70, color: "#FF9900" },
-        { name: "Figma", level: 85, color: "#F24E1E" },
-        { name: "VS Code", level: 95, color: "#007ACC" }
+        { name: "Git/GitHub", level: 85, color: "#F05032" },
+        { name: "Prisma ORM", level: 75, color: "#2D3748" },
+        { name: "Figma", level: 70, color: "#F24E1E" },
+        { name: "VS Code", level: 95, color: "#007ACC" },
+        { name: "Postman", level: 80, color: "#FF6C37" }
       ]
     }
   };
 
   const overallSkills = [
-    { name: "Frontend", value: 92, fill: "#61DAFB" },
-    { name: "Backend", value: 83, fill: "#339933" },
-    { name: "DevOps", value: 75, fill: "#FF9900" },
-    { name: "Design", value: 80, fill: "#F24E1E" }
+    { name: "Frontend", value: 88, fill: "#61DAFB" },
+    { name: "Mobile", value: 82, fill: "#54C5F8" },
+    { name: "Backend", value: 75, fill: "#339933" },
+    { name: "Tools", value: 82, fill: "#F05032" }
   ];
 
   const currentSkills = skillCategories[activeCategory as keyof typeof skillCategories];
@@ -66,7 +66,16 @@ const SkillsSection = () => {
             Skills & Expertise
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            A comprehensive toolkit built through years of hands-on experience and continuous learning.
+            Technologies I work with daily — from frontend interfaces to backend systems and mobile apps. Most of my work is on{" "}
+            <a
+              href="https://github.com/Ram4316"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary hover:underline font-medium"
+            >
+              GitHub
+            </a>
+            .
           </p>
         </motion.div>
 
@@ -175,22 +184,22 @@ const SkillsSection = () => {
           transition={{ duration: 0.8, delay: 0.8 }}
           className="mt-20"
         >
-          <h3 className="text-2xl font-semibold text-center mb-12">Continuous Learning</h3>
+          <h3 className="text-2xl font-semibold text-center mb-12">Currently Learning</h3>
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                title: "AWS Certified",
-                description: "Cloud Solutions Architecture",
-                status: "Certified"
+                title: "Advanced Next.js",
+                description: "Server components, App Router, and full-stack patterns",
+                status: "In Progress"
               },
               {
-                title: "React Advanced",
-                description: "Advanced React Patterns & Performance",
-                status: "Completed"
+                title: "Flutter & Firebase",
+                description: "Realtime apps, Firestore, Auth & payment integrations",
+                status: "In Progress"
               },
               {
                 title: "System Design",
-                description: "Scalable Architecture Principles",
+                description: "Scalable architecture, APIs, and database design",
                 status: "In Progress"
               }
             ].map((cert, index) => (

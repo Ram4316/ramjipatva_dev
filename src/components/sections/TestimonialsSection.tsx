@@ -1,103 +1,96 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 
-const TestimonialsSection = () => {
+interface GitHubStats {
+  public_repos: number;
+  followers: number;
+  following: number;
+  public_gists: number;
+}
+
+interface GitHubRepo {
+  language: string | null;
+  stargazers_count: number;
+  fork: boolean;
+}
+
+const DevelopmentActivity = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [stats, setStats] = useState<GitHubStats | null>(null);
+  const [languages, setLanguages] = useState<{ name: string; count: number; color: string }[]>([]);
+  const [totalStars, setTotalStars] = useState(0);
 
-  const testimonials = [
-    {
-      id: 1,
-      name: "Sarah Chen",
-      role: "Product Manager",
-      company: "TechCorp Solutions",
-      content: "Alex delivered exceptional work on our e-commerce platform. His attention to detail and ability to translate complex requirements into elegant solutions is remarkable. The project was completed ahead of schedule and exceeded our expectations.",
-      avatar: "https://placehold.co/80x80?text=SC",
-      rating: 5
-    },
-    {
-      id: 2,
-      name: "Michael Rodriguez",
-      role: "CTO",
-      company: "StartupXYZ",
-      content: "Working with Alex was a game-changer for our startup. He not only built our MVP but also provided valuable insights on scalability and user experience. His code quality is top-notch and well-documented.",
-      avatar: "https://placehold.co/80x80?text=MR",
-      rating: 5
-    },
-    {
-      id: 3,
-      name: "Emily Johnson",
-      role: "Design Director",
-      company: "Creative Agency",
-      content: "Alex has an incredible ability to bring designs to life with pixel-perfect precision. His collaboration skills and proactive communication made our project seamless. Highly recommend for any web development needs.",
-      avatar: "https://placehold.co/80x80?text=EJ",
-      rating: 5
-    },
-    {
-      id: 4,
-      name: "David Kim",
-      role: "Founder",
-      company: "InnovateLab",
-      content: "The analytics dashboard Alex built for us has transformed how we make business decisions. His expertise in data visualization and user interface design is outstanding. Professional, reliable, and innovative.",
-      avatar: "https://placehold.co/80x80?text=DK",
-      rating: 5
-    },
-    {
-      id: 5,
-      name: "Lisa Thompson",
-      role: "Marketing Director",
-      company: "Digital Solutions Inc",
-      content: "Alex developed our social media management platform with incredible efficiency. The user experience is intuitive, and the performance is excellent. His technical skills combined with business understanding make him invaluable.",
-      avatar: "https://placehold.co/80x80?text=LT",
-      rating: 5
-    }
+  const languageColors: Record<string, string> = {
+    TypeScript: "#3178C6",
+    JavaScript: "#F7DF1E",
+    Dart: "#00B4AB",
+    Python: "#3776AB",
+    HTML: "#E34F26",
+    CSS: "#563D7C",
+    "C++": "#f34b7d",
+    Java: "#b07219",
+    Shell: "#89e051",
+    Other: "#8b8b8b",
+  };
+
+  useEffect(() => {
+    // Fetch user stats
+    fetch("https://api.github.com/users/Ram4316")
+      .then((r) => r.json())
+      .then((data) => setStats(data))
+      .catch(() => {});
+
+    // Fetch repos to calculate languages + stars
+    fetch("https://api.github.com/users/Ram4316/repos?per_page=100")
+      .then((r) => r.json())
+      .then((repos: GitHubRepo[]) => {
+        if (!Array.isArray(repos)) return;
+
+        // Count stars
+        const stars = repos.reduce((acc, r) => acc + (r.stargazers_count || 0), 0);
+        setTotalStars(stars);
+
+        // Count languages
+        const langMap: Record<string, number> = {};
+        repos.forEach((repo) => {
+          if (repo.language && !repo.fork) {
+            langMap[repo.language] = (langMap[repo.language] || 0) + 1;
+          }
+        });
+
+        const sorted = Object.entries(langMap)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 6)
+          .map(([name, count]) => ({
+            name,
+            count,
+            color: languageColors[name] || languageColors["Other"],
+          }));
+
+        setLanguages(sorted);
+      })
+      .catch(() => {});
+  }, []);
+
+  const recentWork = [
+    "Chatbot with Gemini API",
+    "Firebase Authentication Systems",
+    "SaaS Dashboard Interfaces",
+    "Landing Pages & Full Stack Apps",
   ];
 
-  // Auto-advance testimonials
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentIndex((prevIndex) => 
-        prevIndex === testimonials.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 5000);
-
-    return () => clearInterval(timer);
-  }, [testimonials.length]);
-
-  const nextTestimonial = () => {
-    setCurrentIndex((prevIndex) => 
-      prevIndex === testimonials.length - 1 ? 0 : prevIndex + 1
-    );
-  };
-
-  const prevTestimonial = () => {
-    setCurrentIndex((prevIndex) => 
-      prevIndex === 0 ? testimonials.length - 1 : prevIndex - 1
-    );
-  };
-
-  const goToTestimonial = (index: number) => {
-    setCurrentIndex(index);
-  };
-
-  const renderStars = (rating: number) => {
-    return Array.from({ length: 5 }, (_, i) => (
-      <span
-        key={i}
-        className={`text-lg ${i < rating ? 'text-yellow-400' : 'text-muted-foreground'}`}
-      >
-        ★
-      </span>
-    ));
-  };
+  const totalRepos = stats?.public_repos ?? 0;
+  const maxLangCount = languages[0]?.count || 1;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/20 py-20 px-6">
       <div className="max-w-6xl mx-auto">
+
+        {/* Heading */}
         <motion.div
           ref={ref}
           initial={{ opacity: 0, y: 50 }}
@@ -105,140 +98,154 @@ const TestimonialsSection = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-foreground to-primary bg-clip-text text-transparent">
-            Client Testimonials
+          <h2 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-foreground to-primary bg-clip-text text-transparent">
+            Development Activity
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            What clients say about working with me and the impact of our collaborations.
+          <p className="text-muted-foreground text-lg max-w-xl mx-auto">
+            A live look at what I&apos;ve been building and experimenting with.
           </p>
         </motion.div>
 
-        {/* Main Testimonial Display */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="relative"
-        >
-          <div className="bg-card rounded-3xl p-8 md:p-12 border shadow-2xl min-h-[400px] flex flex-col justify-center">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentIndex}
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -50 }}
-                transition={{ duration: 0.5 }}
-                className="text-center"
-              >
-                {/* Quote */}
-                <div className="mb-8">
-                  <div className="text-6xl text-primary/20 mb-4">&quot;</div>
-                  <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-4xl mx-auto">
-                    {testimonials[currentIndex].content}
-                  </p>
-                </div>
-
-                {/* Rating */}
-                <div className="flex justify-center mb-6">
-                  {renderStars(testimonials[currentIndex].rating)}
-                </div>
-
-                {/* Client Info */}
-                <div className="flex flex-col md:flex-row items-center justify-center gap-4">
-                  <img
-                    src={testimonials[currentIndex].avatar}
-                    alt={testimonials[currentIndex].name}
-                    className="w-16 h-16 rounded-full border-2 border-primary/20"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.style.display = 'none';
-                      const parent = target.parentElement;
-                      if (parent) {
-                        const initials = testimonials[currentIndex].name.split(' ').map(n => n[0]).join('');
-                        parent.innerHTML = `<div class="w-16 h-16 rounded-full border-2 border-primary/20 bg-primary/10 flex items-center justify-center font-semibold text-primary">${initials}</div>`;
-                      }
-                    }}
-                  />
-                  <div className="text-center md:text-left">
-                    <h4 className="font-semibold text-lg">{testimonials[currentIndex].name}</h4>
-                    <p className="text-muted-foreground">
-                      {testimonials[currentIndex].role} at {testimonials[currentIndex].company}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
-          {/* Navigation Arrows */}
-          <button
-            onClick={prevTestimonial}
-            className="absolute left-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-card border rounded-full flex items-center justify-center hover:bg-muted transition-colors shadow-lg"
-            aria-label="Previous testimonial"
-          >
-            <span className="text-xl">←</span>
-          </button>
-          
-          <button
-            onClick={nextTestimonial}
-            className="absolute right-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-card border rounded-full flex items-center justify-center hover:bg-muted transition-colors shadow-lg"
-            aria-label="Next testimonial"
-          >
-            <span className="text-xl">→</span>
-          </button>
-        </motion.div>
-
-        {/* Testimonial Indicators */}
+        {/* GitHub Stats Row */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="flex justify-center gap-3 mt-8"
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8"
         >
-          {testimonials.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => goToTestimonial(index)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                index === currentIndex
-                  ? 'bg-primary scale-125'
-                  : 'bg-muted-foreground/30 hover:bg-muted-foreground/50'
-              }`}
-              aria-label={`Go to testimonial ${index + 1}`}
-            />
+          {[
+            { label: "Public Repos", value: stats ? totalRepos : "—" },
+            { label: "Total Stars", value: stats ? totalStars : "—" },
+            { label: "Followers", value: stats ? stats.followers : "—" },
+            { label: "Following", value: stats ? stats.following : "—" },
+          ].map((item, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.5, delay: 0.3 + i * 0.08 }}
+              className="bg-card border border-border rounded-2xl p-5 text-center"
+            >
+              <div className="text-3xl font-bold text-primary mb-1">{item.value}</div>
+              <div className="text-xs text-muted-foreground">{item.label}</div>
+            </motion.div>
           ))}
         </motion.div>
 
-        {/* Stats Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="mt-20"
-        >
-          <div className="grid md:grid-cols-4 gap-8 text-center">
-            {[
-              { number: "50+", label: "Happy Clients" },
-              { number: "100%", label: "Project Success Rate" },
-              { number: "24/7", label: "Support Available" },
-              { number: "5★", label: "Average Rating" }
-            ].map((stat, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                transition={{ duration: 0.6, delay: 0.8 + index * 0.1 }}
-                className="p-6 bg-card rounded-lg border hover:shadow-lg transition-shadow"
-              >
-                <div className="text-3xl font-bold text-primary mb-2">{stat.number}</div>
-                <div className="text-muted-foreground text-sm">{stat.label}</div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+        {/* Bottom Row */}
+        <div className="grid lg:grid-cols-2 gap-8">
+
+          {/* Left — Currently Building + Recent Work + GitHub Button */}
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -40 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="bg-card border border-border rounded-2xl p-6 flex flex-col justify-between"
+          >
+            <div>
+              <p className="text-xs uppercase tracking-widest text-muted-foreground mb-3 font-medium">
+                Currently Building
+              </p>
+              <p className="text-foreground leading-relaxed mb-6 text-sm">
+                Building modern web applications, experimenting with AI integrations,
+                and improving full-stack development workflows using React, Next.js,
+                Firebase, and TypeScript.
+              </p>
+
+              <p className="text-xs uppercase tracking-widest text-muted-foreground mb-3 font-medium">
+                Recent Work
+              </p>
+              <ul className="space-y-2.5 mb-8">
+                {recentWork.map((item, i) => (
+                  <motion.li
+                    key={i}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+                    transition={{ duration: 0.5, delay: 0.5 + i * 0.08 }}
+                    className="flex items-center gap-3 text-sm text-muted-foreground"
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
+                    {item}
+                  </motion.li>
+                ))}
+              </ul>
+            </div>
+
+            <motion.a
+              href="https://github.com/Ram4316"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-full font-medium text-sm hover:bg-primary/90 transition-colors w-full"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
+              </svg>
+              View GitHub Profile
+            </motion.a>
+          </motion.div>
+
+          {/* Right — Top Languages */}
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 40 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="bg-card border border-border rounded-2xl p-6"
+          >
+            <p className="text-xs uppercase tracking-widest text-muted-foreground mb-6 font-medium">
+              Top Languages
+            </p>
+
+            {languages.length === 0 ? (
+              <div className="space-y-4">
+                {[...Array(5)].map((_, i) => (
+                  <div key={i} className="space-y-1.5">
+                    <div className="h-3 bg-muted rounded animate-pulse w-24" />
+                    <div className="h-2 bg-muted rounded animate-pulse" style={{ width: `${80 - i * 12}%` }} />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="space-y-5">
+                {languages.map((lang, i) => (
+                  <motion.div
+                    key={lang.name}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
+                    transition={{ duration: 0.5, delay: 0.5 + i * 0.08 }}
+                    className="space-y-1.5"
+                  >
+                    <div className="flex justify-between items-center">
+                      <div className="flex items-center gap-2">
+                        <span
+                          className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                          style={{ backgroundColor: lang.color }}
+                        />
+                        <span className="text-sm font-medium">{lang.name}</span>
+                      </div>
+                      <span className="text-xs text-muted-foreground">
+                        {Math.round((lang.count / totalRepos) * 100)}%
+                      </span>
+                    </div>
+                    <div className="w-full bg-muted rounded-full h-1.5 overflow-hidden">
+                      <motion.div
+                        className="h-full rounded-full"
+                        style={{ backgroundColor: lang.color }}
+                        initial={{ width: 0 }}
+                        animate={isInView ? { width: `${(lang.count / maxLangCount) * 100}%` } : { width: 0 }}
+                        transition={{ duration: 1, delay: 0.6 + i * 0.1 }}
+                      />
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            )}
+          </motion.div>
+        </div>
       </div>
     </div>
   );
 };
 
-export default TestimonialsSection;
+export default DevelopmentActivity;

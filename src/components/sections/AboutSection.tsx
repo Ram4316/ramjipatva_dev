@@ -10,28 +10,32 @@ const AboutSection = () => {
 
   const timelineData = [
     {
+      year: "2026",
+      title: "Full Stack & Flutter Projects",
+      company: "Personal Projects",
+      description: "Built modern web and mobile applications including a Task Manager App, Realtime Chat App, E-Commerce Platform, and Responsive Landing Pages.",
+      tags: ["React", "Next.js", "Flutter", "Firebase", "PostgreSQL", "Prisma ORM"]
+    },
+    {
+      year: "2025",
+      title: "Flutter Trainee",
+      company: "Hindtech Solutions",
+      description: "Completed industrial training focused on Flutter development, Firebase integration, realtime databases, payment gateway integration, debugging, and application optimization.",
+      tags: ["Firebase Auth & Firestore", "Razorpay & PhonePe", "Flutter UI", "Realtime Features"]
+    },
+    {
       year: "2024",
-      title: "Senior Full Stack Developer",
-      company: "TechCorp Solutions",
-      description: "Leading development of enterprise-scale applications using React, Node.js, and cloud technologies. Mentoring junior developers and architecting scalable solutions."
+      title: "Started MCA & PGDCA",
+      company: "Advanced Studies",
+      description: "Began advanced studies in computer applications while actively learning modern frontend, backend, and mobile development technologies.",
+      tags: ["React & Next.js", "Flutter & Firebase", "REST APIs", "Auth Systems"]
     },
     {
       year: "2022",
-      title: "Full Stack Developer",
-      company: "InnovateLab",
-      description: "Built responsive web applications and RESTful APIs. Collaborated with cross-functional teams to deliver high-quality software solutions."
-    },
-    {
-      year: "2020",
-      title: "Frontend Developer",
-      company: "StartupXYZ",
-      description: "Developed modern, interactive user interfaces using React and TypeScript. Focused on performance optimization and user experience."
-    },
-    {
-      year: "2019",
-      title: "Computer Science Graduate",
-      company: "University of Technology",
-      description: "Graduated with honors, specializing in software engineering and web technologies. Built strong foundation in algorithms and data structures."
+      title: "Bachelor of Science (Mathematics)",
+      company: "Graduation",
+      description: "Completed graduation with a strong analytical and problem-solving foundation that later supported software development and programming learning.",
+      tags: []
     }
   ];
 
@@ -49,8 +53,7 @@ const AboutSection = () => {
             About Me
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Passionate about creating digital experiences that make a difference. 
-            With over 5 years of experience in full-stack development, I bring ideas to life through clean code and innovative solutions.
+            Full Stack Developer from Lucknow, building modern web and mobile apps with clean code and a focus on real-world results.
           </p>
         </motion.div>
 
@@ -62,26 +65,33 @@ const AboutSection = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="space-y-6"
           >
-            <h3 className="text-2xl font-semibold mb-4">My Journey</h3>
+            <h3 className="text-2xl font-semibold mb-4">About Me</h3>
             <p className="text-muted-foreground leading-relaxed">
-              My journey into web development started with curiosity and evolved into a passion for creating 
-              meaningful digital experiences. I believe in the power of technology to solve real-world problems 
-              and improve people&apos;s lives.
+              I&apos;m a Full Stack Web &amp; App Developer focused on building modern websites,
+              landing pages, and scalable web &amp; mobile applications.
             </p>
             <p className="text-muted-foreground leading-relaxed">
-              When I&apos;m not coding, you&apos;ll find me exploring new technologies, contributing to open-source projects, 
-              or sharing knowledge with the developer community. I&apos;m always eager to take on new challenges and 
-              push the boundaries of what&apos;s possible.
+              Currently pursuing MCA and PGDCA while improving my skills through real-world
+              projects, practical development, and continuous learning.
             </p>
-            
+            <p className="text-muted-foreground leading-relaxed">
+              I enjoy creating responsive user interfaces, realtime applications, backend systems,
+              and clean digital experiences using modern technologies like React, Next.js, Flutter,
+              Firebase, and PostgreSQL.
+            </p>
+            <p className="text-muted-foreground leading-relaxed">
+              When I&apos;m not coding, I spend time exploring new technologies, improving UI/UX
+              skills, and building personal projects to sharpen my development workflow.
+            </p>
+
             <div className="grid grid-cols-2 gap-6 mt-8">
               <div className="text-center p-6 bg-card rounded-lg border">
-                <div className="text-3xl font-bold text-primary mb-2">50+</div>
-                <div className="text-sm text-muted-foreground">Projects Completed</div>
+                <div className="text-3xl font-bold text-primary mb-2">3+</div>
+                <div className="text-sm text-muted-foreground">Major Projects</div>
               </div>
               <div className="text-center p-6 bg-card rounded-lg border">
-                <div className="text-3xl font-bold text-primary mb-2">5+</div>
-                <div className="text-sm text-muted-foreground">Years Experience</div>
+                <div className="text-3xl font-bold text-primary mb-2">1+</div>
+                <div className="text-sm text-muted-foreground">Years of Experience</div>
               </div>
             </div>
           </motion.div>
@@ -115,7 +125,19 @@ const AboutSection = () => {
                   <div className="ml-6 bg-card p-6 rounded-lg border shadow-sm hover:shadow-md transition-shadow">
                     <h4 className="font-semibold text-lg mb-1">{item.title}</h4>
                     <p className="text-primary font-medium mb-3">{item.company}</p>
-                    <p className="text-muted-foreground text-sm leading-relaxed">{item.description}</p>
+                    <p className="text-muted-foreground text-sm leading-relaxed mb-3">{item.description}</p>
+                    {item.tags.length > 0 && (
+                      <div className="flex flex-wrap gap-1.5">
+                        {item.tags.map((tag, tagIndex) => (
+                          <span
+                            key={tagIndex}
+                            className="px-2 py-0.5 bg-primary/10 text-primary text-xs rounded-full border border-primary/20"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </motion.div>
               ))}
@@ -130,20 +152,20 @@ const AboutSection = () => {
           transition={{ duration: 0.8, delay: 0.8 }}
           className="mt-20"
         >
-          <h3 className="text-2xl font-semibold text-center mb-12">Core Values</h3>
+          <h3 className="text-2xl font-semibold text-center mb-12">What I Build</h3>
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                title: "Innovation",
-                description: "Always exploring new technologies and approaches to solve complex problems."
+                title: "Web Applications",
+                description: "Full-stack web apps with React, Next.js, Node.js, and PostgreSQL — responsive, fast, and production-ready."
               },
               {
-                title: "Quality",
-                description: "Committed to writing clean, maintainable code that stands the test of time."
+                title: "Mobile Apps",
+                description: "Cross-platform mobile applications using Flutter and Firebase with realtime features and clean UI."
               },
               {
-                title: "Collaboration",
-                description: "Believing in the power of teamwork and open communication to achieve great results."
+                title: "Landing Pages",
+                description: "Modern, conversion-focused landing pages with smooth animations, responsive layouts, and great UX."
               }
             ].map((value, index) => (
               <motion.div

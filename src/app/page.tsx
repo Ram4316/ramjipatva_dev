@@ -5,7 +5,6 @@ import HeroSection from "@/components/sections/HeroSection";
 import AboutSection from "@/components/sections/AboutSection";
 import SkillsSection from "@/components/sections/SkillsSection";
 import ProjectsSection from "@/components/sections/ProjectsSection";
-import TestimonialsSection from "@/components/sections/TestimonialsSection";
 import ContactSection from "@/components/sections/ContactSection";
 import FloatingNav from "@/components/FloatingNav";
 import DarkModeToggle from "@/components/DarkModeToggle";
@@ -54,10 +53,6 @@ export default function Home() {
       
       <section id="projects" className="min-h-screen">
         <ProjectsSection />
-      </section>
-      
-      <section id="testimonials" className="min-h-screen">
-        <TestimonialsSection />
       </section>
       
       <section id="contact" className="min-h-screen">

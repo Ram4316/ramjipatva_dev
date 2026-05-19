@@ -156,7 +156,7 @@ const ProjectsSection = () => {
             Featured Projects
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            A showcase of innovative solutions and creative implementations across various domains and technologies.
+            Handpicked projects across web, mobile, and full-stack development — from idea to working product.
           </p>
         </motion.div>
 

@@ -1,12 +1,62 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+
+const FaqItem = ({
+  question,
+  answer,
+  index,
+  isInView,
+}: {
+  question: string;
+  answer: string;
+  index: number;
+  isInView: boolean;
+}) => {
+  const [open, setOpen] = useState(false);
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+      transition={{ duration: 0.5, delay: 1.2 + index * 0.07 }}
+      className="bg-card border border-border rounded-xl overflow-hidden"
+    >
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-muted/40 transition-colors"
+      >
+        <span className="font-medium text-sm pr-4">{question}</span>
+        <motion.span
+          animate={{ rotate: open ? 45 : 0 }}
+          transition={{ duration: 0.2 }}
+          className="text-primary text-xl flex-shrink-0"
+        >
+          +
+        </motion.span>
+      </button>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
+          >
+            <p className="px-6 pb-5 text-sm text-muted-foreground leading-relaxed border-t border-border pt-4">
+              {answer}
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+};
 
 const ContactSection = () => {
   const ref = useRef(null);
@@ -31,14 +81,21 @@ const ContactSection = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     try {
-      // Simulate form submission
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // In a real application, you would send the data to your backend
-      console.log("Form submitted:", formData);
-      
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        console.error("API error response:", data);
+        throw new Error(data.error || "Failed");
+      }
+
       setSubmitStatus("success");
       setFormData({ name: "", email: "", subject: "", message: "" });
     } catch (error) {
@@ -82,10 +139,10 @@ const ContactSection = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-foreground to-primary bg-clip-text text-transparent">
-            Let&apos;s Work Together
+            Let&apos;s Build Something
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Ready to bring your ideas to life? I&apos;m always excited to discuss new projects and opportunities.
+            Whether it&apos;s a website, a mobile app, or a full-stack product — let&apos;s turn your idea into reality.
           </p>
         </motion.div>
 
@@ -206,9 +263,7 @@ const ContactSection = () => {
             <div>
               <h3 className="text-2xl font-semibold mb-6">Get in Touch</h3>
               <p className="text-muted-foreground leading-relaxed mb-8">
-                I&apos;m always open to discussing new opportunities, interesting projects, 
-                or just having a chat about technology and innovation. Feel free to reach out 
-                through any of the channels below.
+                Have a project in mind or want to collaborate? Drop a message and I&apos;ll get back to you within 24 hours.
               </p>
             </div>
 
@@ -246,20 +301,36 @@ const ContactSection = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ duration: 0.6, delay: 0.8 }}
-              className="p-6 bg-primary/5 rounded-lg border border-primary/20"
+              className="p-4 bg-card rounded-xl border border-border space-y-3"
             >
-              <h4 className="font-semibold text-lg mb-3 text-primary">Current Availability</h4>
-              <p className="text-muted-foreground text-sm leading-relaxed">
-                I&apos;m currently available for new projects and collaborations. 
-                Typical response time is within 24 hours. For urgent matters, 
-                please mention it in your message subject line.
-              </p>
-              <div className="flex items-center gap-2 mt-4">
-                <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                <span className="text-sm font-medium text-green-600 dark:text-green-400">
-                  Available for new projects
+              <div className="flex items-center justify-between">
+                <h4 className="font-semibold text-base text-primary">Current Availability</h4>
+                <span className="flex items-center gap-1.5 px-2.5 py-1 bg-green-500/10 border border-green-500/30 rounded-full text-xs font-medium text-green-600 dark:text-green-400">
+                  <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
+                  Open to Work
                 </span>
               </div>
+
+              <div className="grid grid-cols-2 gap-2">
+                {[
+                  { icon: "💼", label: "Freelance", status: "Available" },
+                  { icon: "🕐", label: "Response Time", status: "Within 24h" },
+                  { icon: "🌍", label: "Remote Work", status: "Worldwide" },
+                  { icon: "📱", label: "Project Types", status: "Web & Mobile" },
+                ].map((item, i) => (
+                  <div key={i} className="bg-muted rounded-lg px-3 py-2 border border-border/50 flex items-center gap-2">
+                    <span className="text-base">{item.icon}</span>
+                    <div>
+                      <div className="text-xs text-muted-foreground leading-none mb-0.5">{item.label}</div>
+                      <div className="text-xs font-medium text-foreground">{item.status}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <p className="text-muted-foreground text-xs leading-relaxed">
+                Mark your subject line <span className="text-foreground font-medium">Urgent</span> for priority response.
+              </p>
             </motion.div>
           </motion.div>
         </div>
@@ -271,36 +342,36 @@ const ContactSection = () => {
           transition={{ duration: 0.8, delay: 1.0 }}
           className="mt-20"
         >
-          <h3 className="text-2xl font-semibold text-center mb-12">Frequently Asked Questions</h3>
-          <div className="grid md:grid-cols-2 gap-8">
+          <h3 className="text-2xl font-semibold text-center mb-3">Frequently Asked Questions</h3>
+          <p className="text-muted-foreground text-center text-sm mb-10">Things people usually ask before reaching out.</p>
+          <div className="grid md:grid-cols-2 gap-4">
             {[
               {
-                question: "What&apos;s your typical project timeline?",
-                answer: "Project timelines vary based on complexity, but most projects range from 2-8 weeks. I provide detailed estimates after understanding your requirements."
+                question: "Are you available for freelance projects?",
+                answer: "Yes! I'm currently open to freelance work — websites, landing pages, full-stack apps, and mobile apps. Feel free to reach out with your project details and I'll get back to you within 24 hours."
               },
               {
-                question: "Do you work with international clients?",
-                answer: "Absolutely! I work with clients worldwide and am comfortable with different time zones and communication preferences."
+                question: "What kind of projects do you take on?",
+                answer: "I work on modern websites, landing pages, full-stack web applications, Flutter mobile apps, and Firebase-based realtime systems. If you have something in mind, just describe it and we can figure out if it's a good fit."
               },
               {
-                question: "What technologies do you specialize in?",
-                answer: "I specialize in React, Next.js, TypeScript, Node.js, and modern web technologies. I'm always learning and adapting to new tools."
+                question: "How long does a typical project take?",
+                answer: "It depends on the scope. A landing page usually takes 3–5 days. A full-stack web app or mobile app can take 2–6 weeks. I always give a clear estimate before starting."
               },
               {
-                question: "Do you provide ongoing support?",
-                answer: "Yes, I offer maintenance and support packages to ensure your project continues to perform optimally after launch."
+                question: "What technologies do you work with?",
+                answer: "My main stack is React, Next.js, TypeScript, Node.js, Flutter, Firebase, and PostgreSQL. I'm comfortable picking up new tools when a project needs it."
+              },
+              {
+                question: "Do you work with clients outside India?",
+                answer: "Absolutely. I'm comfortable working remotely with clients from anywhere. Communication is usually through email, WhatsApp, or any platform you prefer."
+              },
+              {
+                question: "Can you help with an existing project?",
+                answer: "Yes — I can jump into an existing codebase to fix bugs, add features, improve performance, or refactor code. Just share the details and we'll take it from there."
               }
             ].map((faq, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.6, delay: 1.2 + index * 0.1 }}
-                className="p-6 bg-card rounded-lg border"
-              >
-                <h4 className="font-semibold mb-3">{faq.question}</h4>
-                <p className="text-muted-foreground text-sm leading-relaxed">{faq.answer}</p>
-              </motion.div>
+              <FaqItem key={index} question={faq.question} answer={faq.answer} index={index} isInView={isInView} />
             ))}
           </div>
         </motion.div>
