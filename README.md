@@ -1,162 +1,132 @@
-# 🚀 Ramji Patva - Full Stack Developer Portfolio
+# ramjipatva.dev — Personal Portfolio
 
-A modern, responsive portfolio website built with Next.js 15, TypeScript, and Tailwind CSS. Features smooth animations, dark mode support, and optimized performance.
+Personal portfolio website built with Next.js, Tailwind CSS, and Framer Motion.
+Live at [ramjipatva.dev](https://ramjipatva.dev)
 
-## ✨ Features
+---
 
-- **Modern Design**: Clean, professional design with smooth animations
-- **Responsive**: Fully responsive across all devices
-- **Dark Mode**: Built-in dark/light theme toggle
-- **Performance**: Optimized with Next.js 15 and Turbopack
-- **SEO Ready**: Meta tags and structured data for better search visibility
-- **Accessibility**: WCAG compliant with proper ARIA labels
+## Tech Stack
 
-## 🛠️ Tech Stack
+- **Framework** — Next.js 15 (App Router)
+- **Styling** — Tailwind CSS v4
+- **Animations** — Framer Motion
+- **Email** — Resend API
+- **Deployment** — Vercel
 
-- **Framework**: Next.js 15.3.2
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS 4
-- **Animations**: Framer Motion
-- **UI Components**: Radix UI + Custom Components
-- **Deployment**: GitHub Pages + GitHub Actions
+---
 
-## 🚀 Quick Start
+## Local Development
 
-### Prerequisites
+```bash
+# Install dependencies
+npm install
 
-- Node.js 18+ 
-- npm or yarn
+# Create environment file
+cp .env.example .env.local
+# Add your RESEND_API_KEY to .env.local
 
-### Installation
+# Start dev server
+npm run dev
+```
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/Ram4316/my-portfolio.git
-   cd my-portfolio
-   ```
+Open [http://localhost:8000](http://localhost:8000)
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+---
 
-3. **Run development server**
-   ```bash
-   npm run dev
-   ```
+## Environment Variables
 
-4. **Open your browser**
-   Navigate to [http://localhost:8000](http://localhost:8000)
+Create a `.env.local` file in the root with:
 
-## 📁 Project Structure
+```env
+RESEND_API_KEY=your_resend_api_key_here
+```
+
+> Never commit `.env.local` — it is already in `.gitignore`
+
+---
+
+## Resend Setup
+
+The contact form uses [Resend](https://resend.com) to send emails.
+
+1. Go to [resend.com](https://resend.com) and create a free account
+2. Navigate to **API Keys** → **Create API Key**
+3. Copy the key and add it to `.env.local` as `RESEND_API_KEY`
+4. In `src/app/api/contact/route.ts`:
+   - `from` is set to `onboarding@resend.dev` (works without domain verification)
+   - `to` must be the email you used to sign up on Resend (free plan restriction)
+5. Once you verify your domain on Resend, update `from` to `contact@ramjipatva.dev`
+
+---
+
+## Vercel Deployment
+
+### 1. Push to GitHub
+```bash
+git add .
+git commit -m "your message"
+git push
+```
+
+### 2. Import on Vercel
+1. Go to [vercel.com](https://vercel.com) and sign in with GitHub
+2. Click **Add New Project**
+3. Import the `ramjipatva_dev` repository
+4. Framework will auto-detect as **Next.js** — no changes needed
+
+### 3. Add Environment Variables
+Before clicking Deploy, scroll to **Environment Variables** and add:
+
+| Key | Value |
+|-----|-------|
+| `RESEND_API_KEY` | `your_resend_api_key_here` |
+
+### 4. Deploy
+Click **Deploy** — Vercel will build and deploy automatically.
+
+### 5. Connect Custom Domain
+1. Go to your project on Vercel → **Settings → Domains**
+2. Add `ramjipatva.dev`
+3. Vercel will show DNS records — add them in your domain registrar
+4. Wait for propagation (usually 5–30 minutes)
+
+### Redeployment
+Every `git push` to `master` will automatically trigger a new deployment on Vercel.
+
+---
+
+## Project Structure
 
 ```
 src/
-├── app/                    # Next.js app directory
-│   ├── globals.css        # Global styles
-│   ├── layout.tsx         # Root layout
-│   └── page.tsx           # Home page
-├── components/            # React components
-│   ├── sections/          # Page sections
+├── app/
+│   ├── api/
+│   │   └── contact/
+│   │       └── route.ts      # Resend email API route
+│   ├── globals.css
+│   ├── layout.tsx
+│   └── page.tsx
+├── components/
+│   ├── sections/
 │   │   ├── HeroSection.tsx
 │   │   ├── AboutSection.tsx
 │   │   ├── SkillsSection.tsx
 │   │   ├── ProjectsSection.tsx
-│   │   ├── TestimonialsSection.tsx
 │   │   └── ContactSection.tsx
-│   ├── ui/               # Reusable UI components
 │   ├── DarkModeToggle.tsx
 │   ├── FloatingNav.tsx
 │   └── HireMeButton.tsx
-├── hooks/                # Custom React hooks
-└── lib/                  # Utility functions
+└── lib/
+    └── utils.ts
+public/
+└── profile.jpeg
 ```
-
-## 🎨 Customization
-
-### Colors & Themes
-Edit `src/app/globals.css` to customize the color scheme and CSS variables.
-
-### Content
-Update the content in each section component:
-- `HeroSection.tsx` - Your name, title, and introduction
-- `AboutSection.tsx` - Personal story and experience
-- `SkillsSection.tsx` - Skills and expertise
-- `ProjectsSection.tsx` - Portfolio projects
-- `TestimonialsSection.tsx` - Client feedback
-- `ContactSection.tsx` - Contact information
-
-### Styling
-Modify Tailwind classes in the components or add custom CSS in `globals.css`.
-
-## 🚀 Deployment
-
-### GitHub Pages (Automatic)
-
-The portfolio is automatically deployed to GitHub Pages using GitHub Actions:
-
-1. **Push to main branch** - Automatic deployment triggers
-2. **Check Actions tab** - Monitor build and deployment progress
-3. **View live site** - Available at `https://ram4316.github.io/my-portfolio`
-
-### Manual Deployment
-
-1. **Build the project**
-   ```bash
-   npm run build
-   ```
-
-2. **Export static files**
-   ```bash
-   npm run export
-   ```
-
-3. **Deploy the `out/` folder** to your hosting provider
-
-## 🔧 Available Scripts
-
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run start` - Start production server
-- `npm run lint` - Run ESLint
-- `npm run export` - Export static files
-
-## 📱 Performance Optimizations
-
-- **Hydration Fixed**: Resolved React hydration errors
-- **Code Splitting**: Automatic code splitting with Next.js
-- **Image Optimization**: Optimized images and SVGs
-- **Bundle Analysis**: Minimal bundle size
-- **Lazy Loading**: Components load only when needed
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-1. **Hydration Errors**: Fixed by moving random generation to useEffect
-2. **Build Errors**: Ensure Node.js 18+ and clean install
-3. **Styling Issues**: Check Tailwind CSS configuration
-
-### Getting Help
-
-- Check the [Issues](../../issues) page
-- Review the [GitHub Actions](../../actions) for build logs
-- Ensure all dependencies are properly installed
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
-## 📞 Contact
-
-- **Portfolio**: [https://ram4316.github.io/my-portfolio](https://ram4316.github.io/my-portfolio)
-- **GitHub**: [@Ram4316](https://github.com/Ram4316)
-- **Email**: [Your Email]
 
 ---
 
-⭐ **Star this repository if you found it helpful!**
+## Notes
+
+- Default theme is **dark mode**
+- Contact form sends real emails via Resend API
+- Profile photo is served from `public/profile.jpeg`
+- Projects section still uses placeholder data — update `ProjectsSection.tsx` with real projects
