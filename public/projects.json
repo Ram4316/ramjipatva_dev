@@ -1,5 +1,35 @@
 [
   {
+    "id": 7,
+    "title": "AI SaaS Landing Page",
+    "category": "Frontend",
+    "description": "Modern AI startup landing page with interactive 3D visuals, smooth animations, and premium futuristic UI.",
+    "longDescription": "A premium AI SaaS landing page built with Next.js and React Three Fiber. Features an interactive 3D orb, smooth scroll animations powered by Framer Motion, glassmorphism UI components, and a fully responsive layout designed for modern AI startups.",
+    "images": [
+      "/landinggggggggg.png",
+      "/features.png",
+      "/testimonials.png",
+      "/pricing.png",
+      "/contact.png"
+    ],
+    "technologies": [
+      "Next.js",
+      "Tailwind CSS",
+      "Framer Motion",
+      "R3F"
+    ],
+    "features": [
+      "Interactive 3D Orb",
+      "Smooth Scroll Animations",
+      "Responsive SaaS Layout",
+      "Glassmorphism UI",
+      "Premium Motion Design"
+    ],
+    "liveUrl": "https://responsive-landingpage-eight.vercel.app/",
+    "githubUrl": "https://github.com/Ram4316/ResponsiveLandingpage",
+    "status": "Completed"
+  },
+  {
     "id": 1,
     "title": "E-Commerce Platform",
     "category": "Full Stack",
@@ -54,36 +84,6 @@
     ],
     "liveUrl": "#",
     "githubUrl": "#",
-    "status": "Completed"
-  },
-  {
-    "id": 7,
-    "title": "AI SaaS Landing Page",
-    "category": "Frontend",
-    "description": "Modern AI startup landing page with interactive 3D visuals, smooth animations, and premium futuristic UI.",
-    "longDescription": "A premium AI SaaS landing page built with Next.js and React Three Fiber. Features an interactive 3D orb, smooth scroll animations powered by Framer Motion, glassmorphism UI components, and a fully responsive layout designed for modern AI startups.",
-    "images": [
-      "/landinggggggggg.png",
-      "/features.png",
-      "/testimonials.png",
-      "/pricing.png",
-      "/contact.png"
-    ],
-    "technologies": [
-      "Next.js",
-      "Tailwind CSS",
-      "Framer Motion",
-      "R3F"
-    ],
-    "features": [
-      "Interactive 3D Orb",
-      "Smooth Scroll Animations",
-      "Responsive SaaS Layout",
-      "Glassmorphism UI",
-      "Premium Motion Design"
-    ],
-    "liveUrl": "https://responsive-landingpage-eight.vercel.app/",
-    "githubUrl": "https://github.com/Ram4316/ResponsiveLandingpage",
     "status": "Completed"
   },
   {
