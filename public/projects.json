@@ -1,26 +1,29 @@
 [
   {
-    "id": 7,
-    "title": "AI SaaS Landing Page",
-    "category": "Frontend",
-    "description": "Modern AI startup landing page with interactive 3D visuals, smooth animations, and premium futuristic UI.",
-    "longDescription": "A premium AI SaaS landing page built with Next.js and React Three Fiber. Features an interactive 3D orb, smooth scroll animations powered by Framer Motion, glassmorphism UI components, and a fully responsive layout designed for modern AI startups.",
-    "images": ["/landinggggggggg.png", "/features.png", "/testimonials.png", "/pricing.png", "/contact.png"],
-    "technologies": ["Next.js", "Tailwind CSS", "Framer Motion", "R3F"],
-    "features": ["Interactive 3D Orb", "Smooth Scroll Animations", "Responsive SaaS Layout", "Glassmorphism UI", "Premium Motion Design"],
-    "liveUrl": "https://responsive-landingpage-eight.vercel.app/",
-    "githubUrl": "https://github.com/Ram4316/ResponsiveLandingpage",
-    "status": "Completed"
-  },
-  {
     "id": 1,
     "title": "E-Commerce Platform",
     "category": "Full Stack",
     "description": "A modern e-commerce platform built with Next.js, featuring real-time inventory management, secure payments, and advanced analytics.",
     "longDescription": "This comprehensive e-commerce solution includes user authentication, product catalog management, shopping cart functionality, secure payment processing with Stripe, order tracking, and an admin dashboard with real-time analytics.",
-    "images": ["https://placehold.co/600x400?text=E-Commerce+Platform"],
-    "technologies": ["Next.js", "TypeScript", "PostgreSQL", "Stripe", "Tailwind CSS", "Prisma"],
-    "features": ["Real-time inventory management", "Secure payment processing", "Advanced analytics dashboard", "Mobile-responsive design", "SEO optimized", "Admin panel with role-based access"],
+    "images": [
+      "https://placehold.co/600x400?text=E-Commerce+Platform"
+    ],
+    "technologies": [
+      "Next.js",
+      "TypeScript",
+      "PostgreSQL",
+      "Stripe",
+      "Tailwind CSS",
+      "Prisma"
+    ],
+    "features": [
+      "Real-time inventory management",
+      "Secure payment processing",
+      "Advanced analytics dashboard",
+      "Mobile-responsive design",
+      "SEO optimized",
+      "Admin panel with role-based access"
+    ],
     "liveUrl": "#",
     "githubUrl": "#",
     "status": "Completed"
@@ -31,11 +34,56 @@
     "category": "Frontend",
     "description": "A collaborative task management application with real-time updates, drag-and-drop functionality, and team collaboration features.",
     "longDescription": "This project management tool enables teams to organize tasks efficiently with features like drag-and-drop kanban boards, real-time collaboration, file attachments, time tracking, and detailed project analytics.",
-    "images": ["https://placehold.co/600x400?text=Task+Management+App"],
-    "technologies": ["React", "Socket.io", "Node.js", "MongoDB", "Material-UI"],
-    "features": ["Drag-and-drop kanban boards", "Real-time collaboration", "File attachments", "Time tracking", "Project analytics", "Team management"],
+    "images": [
+      "https://placehold.co/600x400?text=Task+Management+App"
+    ],
+    "technologies": [
+      "React",
+      "Socket.io",
+      "Node.js",
+      "MongoDB",
+      "Material-UI"
+    ],
+    "features": [
+      "Drag-and-drop kanban boards",
+      "Real-time collaboration",
+      "File attachments",
+      "Time tracking",
+      "Project analytics",
+      "Team management"
+    ],
     "liveUrl": "#",
     "githubUrl": "#",
+    "status": "Completed"
+  },
+  {
+    "id": 7,
+    "title": "AI SaaS Landing Page",
+    "category": "Frontend",
+    "description": "Modern AI startup landing page with interactive 3D visuals, smooth animations, and premium futuristic UI.",
+    "longDescription": "A premium AI SaaS landing page built with Next.js and React Three Fiber. Features an interactive 3D orb, smooth scroll animations powered by Framer Motion, glassmorphism UI components, and a fully responsive layout designed for modern AI startups.",
+    "images": [
+      "/landinggggggggg.png",
+      "/features.png",
+      "/testimonials.png",
+      "/pricing.png",
+      "/contact.png"
+    ],
+    "technologies": [
+      "Next.js",
+      "Tailwind CSS",
+      "Framer Motion",
+      "R3F"
+    ],
+    "features": [
+      "Interactive 3D Orb",
+      "Smooth Scroll Animations",
+      "Responsive SaaS Layout",
+      "Glassmorphism UI",
+      "Premium Motion Design"
+    ],
+    "liveUrl": "https://responsive-landingpage-eight.vercel.app/",
+    "githubUrl": "https://github.com/Ram4316/ResponsiveLandingpage",
     "status": "Completed"
   },
   {
@@ -44,9 +92,25 @@
     "category": "Data Visualization",
     "description": "An intelligent analytics dashboard that uses machine learning to provide insights and predictions for business metrics.",
     "longDescription": "This advanced analytics platform integrates multiple data sources and uses AI algorithms to generate actionable insights. Features include predictive analytics, automated report generation, custom dashboard creation, and real-time data visualization.",
-    "images": ["https://placehold.co/600x400?text=AI+Analytics+Dashboard"],
-    "technologies": ["React", "D3.js", "Python", "TensorFlow", "FastAPI", "PostgreSQL"],
-    "features": ["Predictive analytics", "Automated reporting", "Custom dashboards", "Real-time data visualization", "Machine learning insights", "Multi-source data integration"],
+    "images": [
+      "https://placehold.co/600x400?text=AI+Analytics+Dashboard"
+    ],
+    "technologies": [
+      "React",
+      "D3.js",
+      "Python",
+      "TensorFlow",
+      "FastAPI",
+      "PostgreSQL"
+    ],
+    "features": [
+      "Predictive analytics",
+      "Automated reporting",
+      "Custom dashboards",
+      "Real-time data visualization",
+      "Machine learning insights",
+      "Multi-source data integration"
+    ],
     "liveUrl": "#",
     "githubUrl": "#",
     "status": "In Progress"
@@ -57,9 +121,25 @@
     "category": "SaaS",
     "description": "A comprehensive social media management tool for scheduling posts, analyzing engagement, and managing multiple accounts.",
     "longDescription": "This SaaS platform allows users to manage multiple social media accounts from a single dashboard. Features include post scheduling, content calendar, engagement analytics, hashtag suggestions, and team collaboration tools.",
-    "images": ["https://placehold.co/600x400?text=Social+Media+Scheduler"],
-    "technologies": ["Vue.js", "Laravel", "Redis", "MySQL", "Docker", "AWS"],
-    "features": ["Multi-platform posting", "Content calendar", "Engagement analytics", "Hashtag suggestions", "Team collaboration", "Automated scheduling"],
+    "images": [
+      "https://placehold.co/600x400?text=Social+Media+Scheduler"
+    ],
+    "technologies": [
+      "Vue.js",
+      "Laravel",
+      "Redis",
+      "MySQL",
+      "Docker",
+      "AWS"
+    ],
+    "features": [
+      "Multi-platform posting",
+      "Content calendar",
+      "Engagement analytics",
+      "Hashtag suggestions",
+      "Team collaboration",
+      "Automated scheduling"
+    ],
     "liveUrl": "#",
     "githubUrl": "#",
     "status": "Completed"
@@ -70,9 +150,25 @@
     "category": "Full Stack",
     "description": "A modern real estate platform with property listings, virtual tours, mortgage calculator, and agent management system.",
     "longDescription": "This comprehensive real estate solution includes property search with advanced filters, virtual tour integration, mortgage calculator, agent profiles, lead management system, and property comparison tools.",
-    "images": ["https://placehold.co/600x400?text=Real+Estate+Platform"],
-    "technologies": ["Next.js", "Prisma", "PostgreSQL", "Mapbox", "Cloudinary", "Stripe"],
-    "features": ["Advanced property search", "Virtual tour integration", "Mortgage calculator", "Agent management system", "Lead tracking", "Property comparison"],
+    "images": [
+      "https://placehold.co/600x400?text=Real+Estate+Platform"
+    ],
+    "technologies": [
+      "Next.js",
+      "Prisma",
+      "PostgreSQL",
+      "Mapbox",
+      "Cloudinary",
+      "Stripe"
+    ],
+    "features": [
+      "Advanced property search",
+      "Virtual tour integration",
+      "Mortgage calculator",
+      "Agent management system",
+      "Lead tracking",
+      "Property comparison"
+    ],
     "liveUrl": "#",
     "githubUrl": "#",
     "status": "Completed"
@@ -83,9 +179,24 @@
     "category": "Mobile",
     "description": "A comprehensive fitness tracking application with workout plans, nutrition tracking, and progress analytics.",
     "longDescription": "This mobile-first fitness application helps users track their workouts, monitor nutrition, set fitness goals, and analyze progress over time. Includes social features for sharing achievements and competing with friends.",
-    "images": ["https://placehold.co/600x400?text=Fitness+Tracking+App"],
-    "technologies": ["React Native", "Firebase", "Node.js", "MongoDB", "Chart.js"],
-    "features": ["Workout tracking", "Nutrition monitoring", "Progress analytics", "Social features", "Wearable integration", "Custom workout plans"],
+    "images": [
+      "https://placehold.co/600x400?text=Fitness+Tracking+App"
+    ],
+    "technologies": [
+      "React Native",
+      "Firebase",
+      "Node.js",
+      "MongoDB",
+      "Chart.js"
+    ],
+    "features": [
+      "Workout tracking",
+      "Nutrition monitoring",
+      "Progress analytics",
+      "Social features",
+      "Wearable integration",
+      "Custom workout plans"
+    ],
     "liveUrl": "#",
     "githubUrl": "#",
     "status": "In Progress"
