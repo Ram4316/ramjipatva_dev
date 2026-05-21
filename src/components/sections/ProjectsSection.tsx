@@ -80,30 +80,32 @@ const ImageCarousel = ({ images, title, height = "h-48" }: { images: string[], t
   );
 };
 
-const CATEGORIES = ["All", "Full Stack", "Frontend", "Data Visualization", "SaaS", "Mobile"];
 const PROJECTS_PER_PAGE = 6;
 
 const ProjectsSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [projects, setProjects] = useState<Project[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
   const [loadingProjects, setLoadingProjects] = useState(true);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [activeCategory, setActiveCategory] = useState("All");
   const [currentPage, setCurrentPage] = useState(0);
 
-  // Fetch from GitHub raw — always up to date
   useEffect(() => {
-    fetch(`https://raw.githubusercontent.com/Ram4316/ramjipatva_dev/master/public/projects.json?t=${Date.now()}`)
-      .then(r => r.json())
-      .then(data => { setProjects(data); setLoadingProjects(false); })
-      .catch(() => {
-        // Fallback to local file
-        fetch("/projects.json")
-          .then(r => r.json())
-          .then(data => { setProjects(data); setLoadingProjects(false); })
-          .catch(() => setLoadingProjects(false));
-      });
+    const t = Date.now();
+    Promise.all([
+      fetch(`https://raw.githubusercontent.com/Ram4316/ramjipatva_dev/master/public/projects.json?t=${t}`).then(r => r.json()),
+      fetch(`https://raw.githubusercontent.com/Ram4316/ramjipatva_dev/master/public/categories.json?t=${t}`).then(r => r.json()),
+    ]).then(([p, c]) => {
+      setProjects(p);
+      setCategories(c);
+      setLoadingProjects(false);
+    }).catch(() => {
+      Promise.all([fetch("/projects.json").then(r => r.json()), fetch("/categories.json").then(r => r.json())])
+        .then(([p, c]) => { setProjects(p); setCategories(c); setLoadingProjects(false); })
+        .catch(() => setLoadingProjects(false));
+    });
   }, []);
 
   const filteredProjects = activeCategory === "All"
@@ -146,7 +148,7 @@ const ProjectsSection = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="flex flex-wrap justify-center gap-3 mb-12"
         >
-          {CATEGORIES.map(category => (
+          {["All", ...categories].map(category => (
             <button
               key={category}
               onClick={() => handleCategoryChange(category)}
