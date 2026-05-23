@@ -100,8 +100,6 @@ const HeroSection = () => {
                     className="object-cover object-[center_20%] w-[300px] h-[380px] md:w-[360px] md:h-[440px] grayscale hover:grayscale-0 transition-all duration-700"
                     priority
                   />
-                  {/* Subtle overlay gradient at bottom */}
-                  <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-background/70 to-transparent" />
                 </div>
               </div>
             </motion.div>
